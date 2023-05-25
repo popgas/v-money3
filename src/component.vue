@@ -18,11 +18,13 @@
       shouldRound,
       focusOnRight,
     }"
+    ref="input"
     type="tel"
     class="v-money3"
     :value="formattedValue"
     :disabled="props.disabled"
     @change="change"
+    @enter="$emit('enter')"
   />
 </template>
 
