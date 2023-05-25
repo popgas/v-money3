@@ -1,7 +1,7 @@
 {
   "name": "v-money3",
-  "version": "3.24.0",
-  "description": "Vue3 currency input/directive mask",
+  "version": "3.24.1",
+  "description": "PopGas: Vue3 currency input/directive mask",
   "main": "./dist/v-money3.umd.js",
   "module": "./dist/v-money3.mjs",
   "exports": {
