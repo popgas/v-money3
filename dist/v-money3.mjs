@@ -1,7 +1,7 @@
 var Z = Object.defineProperty;
 var z = (t, e, n) => e in t ? Z(t, e, { enumerable: !0, configurable: !0, writable: !0, value: n }) : t[e] = n;
 var w = (t, e, n) => (z(t, typeof e != "symbol" ? e + "" : e, n), n);
-import { defineComponent as G, getCurrentInstance as J, toRefs as Q, ref as X, watch as Y, useAttrs as ee, computed as te, resolveDirective as ne, withDirectives as ie, openBlock as re, createElementBlock as ae, mergeProps as se, unref as v } from "vue";
+import { defineComponent as G, getCurrentInstance as J, toRefs as Q, ref as X, watch as Y, useAttrs as ee, computed as te, resolveDirective as ne, withDirectives as ie, openBlock as re, createElementBlock as ae, mergeProps as se, unref as v, withKeys as ue, withModifiers as le } from "vue";
 const l = {
   debug: !1,
   masked: !1,
@@ -21,7 +21,7 @@ const l = {
   },
   shouldRound: !0,
   focusOnRight: !1
-}, M = ["+", "-"], V = ["decimal", "thousands", "prefix", "suffix"];
+}, $ = ["+", "-"], V = ["decimal", "thousands", "prefix", "suffix"];
 function f(t) {
   return Math.max(0, Math.min(t, 1e3));
 }
@@ -31,16 +31,16 @@ function N(t, e) {
 function F(t) {
   return t = t ? t.toString() : "", t.replace(/\D+/g, "") || "0";
 }
-function ue(t, e) {
+function oe(t, e) {
   return t.replace(/(\d)(?=(?:\d{3})+\b)/gm, `$1${e}`);
 }
-function le(t, e, n) {
+function ce(t, e, n) {
   return e ? t + n + e : t;
 }
 function b(t, e) {
-  return M.includes(t) ? (console.warn(`v-money3 "${e}" property don't accept "${t}" as a value.`), !1) : /\d/g.test(t) ? (console.warn(`v-money3 "${e}" property don't accept "${t}" (any number) as a value.`), !1) : !0;
+  return $.includes(t) ? (console.warn(`v-money3 "${e}" property don't accept "${t}" as a value.`), !1) : /\d/g.test(t) ? (console.warn(`v-money3 "${e}" property don't accept "${t}" (any number) as a value.`), !1) : !0;
 }
-function oe(t) {
+function de(t) {
   for (const e of V)
     if (!b(t[e], e))
       return !1;
@@ -49,7 +49,7 @@ function oe(t) {
 function x(t) {
   for (const e of V) {
     t[e] = t[e].replace(/\d+/g, "");
-    for (const n of M)
+    for (const n of $)
       t[e] = t[e].replaceAll(n, "");
   }
   return t;
@@ -180,8 +180,8 @@ function k(t, e = l, n = "") {
     return "";
   let [g, m] = c.split(".");
   const h = m !== void 0 ? m.length : 0;
-  g = g.padStart(e.minimumNumberOfCharacters - h, "0"), g = ue(g, e.thousands);
-  const y = e.prefix + le(g, m, e.decimal) + e.suffix;
+  g = g.padStart(e.minimumNumberOfCharacters - h, "0"), g = oe(g, e.thousands);
+  const y = e.prefix + ce(g, m, e.decimal) + e.suffix;
   return r(e, "utils format() - output", y), y;
 }
 function S(t, e = l, n = "") {
@@ -197,7 +197,7 @@ function S(t, e = l, n = "") {
   return e.modelModifiers && e.modelModifiers.number && (c = parseFloat(c)), r(e, "utils unformat() - output", c), c;
 }
 const R = (t, e, n) => {
-  if (r(e, "directive setValue() - caller", n), !oe(e)) {
+  if (r(e, "directive setValue() - caller", n), !de(e)) {
     r(e, "directive setValue() - validateRestrictedOptions() return false. Stopping here...", t.value);
     return;
   }
@@ -213,7 +213,7 @@ const R = (t, e, n) => {
 }, T = (t, e) => {
   const n = t.currentTarget;
   r(e, "directive oninput()", n.value), /^[1-9]$/.test(n.value) && (n.value = N(n.value, f(e.precision)), r(e, "directive oninput() - is 1-9", n.value)), R(n, e, "directive oninput");
-}, $ = (t, e) => {
+}, M = (t, e) => {
   const n = t.currentTarget;
   r(e, "directive onFocus()", n.value), e.focusOnRight && _(n, n.value.length - e.suffix.length);
 }, q = {
@@ -230,7 +230,7 @@ const R = (t, e, n) => {
     }, t.oninput = (i) => {
       T(i, n);
     }, t.onfocus = (i) => {
-      $(i, n);
+      M(i, n);
     }, r(n, "directive mounted() - el.value", t.value), R(t, n, "directive mounted");
   },
   updated(t, e) {
@@ -242,13 +242,13 @@ const R = (t, e, n) => {
     }, t.oninput = (i) => {
       T(i, n);
     }, t.onfocus = (i) => {
-      $(i, n);
+      M(i, n);
     }, r(n, "directive updated() - el.value", t.value), r(n, "directive updated() - opt", n), R(t, n, "directive updated");
   },
   beforeUnmount(t) {
     t.onkeydown = null, t.oninput = null, t.onfocus = null;
   }
-}, ce = ["id", "value", "disabled"], de = {
+}, fe = ["id", "value", "disabled"], me = {
   inheritAttrs: !1,
   name: "Money3",
   directives: {
@@ -259,8 +259,8 @@ const R = (t, e, n) => {
       console.log("onEnter"), this.$emit("enter");
     }
   }
-}, fe = /* @__PURE__ */ G({
-  ...de,
+}, ge = /* @__PURE__ */ G({
+  ...me,
   props: {
     debug: {
       required: !1,
@@ -379,26 +379,29 @@ const R = (t, e, n) => {
         "component change"
       )), o !== B && (B = o, r(n, "component change() -> update:model-value", o), e("update:model-value", o));
     }
-    const L = ee(), H = te(() => {
+    const K = ee(), L = te(() => {
       const d = {
-        ...L
+        ...K
       };
       return delete d["onUpdate:modelValue"], d;
     });
     return (d, o) => {
-      const K = ne("money3");
+      const H = ne("money3");
       return ie((re(), ae("input", se({
         id: `${t.id}`
-      }, v(H), {
+      }, v(L), {
         ref: "input",
         type: "tel",
         class: "v-money3",
         value: h.value,
         disabled: n.disabled,
         onChange: U,
-        onEnter: o[0] || (o[0] = (...W) => d.onEnter && d.onEnter(...W))
-      }), null, 16, ce)), [
-        [K, {
+        onKeyup: o[0] || (o[0] = ue(le(
+          (...W) => d.onEnter && d.onEnter(...W),
+          ["prevent"]
+        ), ["enter"]))
+      }), null, 16, fe)), [
+        [H, {
           precision: v(u),
           decimal: n.decimal,
           thousands: n.thousands,
@@ -417,20 +420,20 @@ const R = (t, e, n) => {
       ]);
     };
   }
-}), he = {
+}), be = {
   install(t) {
-    t.component("money3", fe), t.directive("money3", q);
+    t.component("money3", ge), t.directive("money3", q);
   }
 };
 export {
   p as BigNumber,
-  fe as Money,
-  fe as Money3,
-  fe as Money3Component,
+  ge as Money,
+  ge as Money3,
+  ge as Money3Component,
   q as Money3Directive,
   q as VMoney,
   q as VMoney3,
-  he as default,
+  be as default,
   k as format,
   S as unformat
 };

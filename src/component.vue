@@ -24,7 +24,7 @@
     :value="formattedValue"
     :disabled="props.disabled"
     @change="change"
-    @enter="onEnter"
+    @keyup.enter.prevent="onEnter"
   />
 </template>
 
