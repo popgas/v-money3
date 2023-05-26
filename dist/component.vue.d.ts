@@ -80,7 +80,9 @@ declare const _default: import("vue").DefineComponent<{
         type: BooleanConstructor;
         default: () => boolean;
     };
-}, {}, unknown, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
+}, {}, unknown, {}, {
+    onEnter(): void;
+}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {
     "update:model-value": (value: string | number) => void;
 }, string, import("vue").VNodeProps & import("vue").AllowedComponentProps & import("vue").ComponentCustomProps, Readonly<import("vue").ExtractPropTypes<{
     debug: {

@@ -1,7 +1,7 @@
-var W = Object.defineProperty;
-var Z = (t, e, n) => e in t ? W(t, e, { enumerable: !0, configurable: !0, writable: !0, value: n }) : t[e] = n;
-var w = (t, e, n) => (Z(t, typeof e != "symbol" ? e + "" : e, n), n);
-import { defineComponent as z, getCurrentInstance as G, toRefs as J, ref as Q, watch as X, useAttrs as Y, computed as ee, resolveDirective as te, withDirectives as ne, openBlock as ie, createElementBlock as re, mergeProps as ae, unref as h } from "vue";
+var Z = Object.defineProperty;
+var z = (t, e, n) => e in t ? Z(t, e, { enumerable: !0, configurable: !0, writable: !0, value: n }) : t[e] = n;
+var w = (t, e, n) => (z(t, typeof e != "symbol" ? e + "" : e, n), n);
+import { defineComponent as G, getCurrentInstance as J, toRefs as Q, ref as X, watch as Y, useAttrs as ee, computed as te, resolveDirective as ne, withDirectives as ie, openBlock as re, createElementBlock as ae, mergeProps as se, unref as v } from "vue";
 const l = {
   debug: !1,
   masked: !1,
@@ -31,16 +31,16 @@ function N(t, e) {
 function F(t) {
   return t = t ? t.toString() : "", t.replace(/\D+/g, "") || "0";
 }
-function se(t, e) {
+function ue(t, e) {
   return t.replace(/(\d)(?=(?:\d{3})+\b)/gm, `$1${e}`);
 }
-function ue(t, e, n) {
+function le(t, e, n) {
   return e ? t + n + e : t;
 }
 function b(t, e) {
   return M.includes(t) ? (console.warn(`v-money3 "${e}" property don't accept "${t}" as a value.`), !1) : /\d/g.test(t) ? (console.warn(`v-money3 "${e}" property don't accept "${t}" (any number) as a value.`), !1) : !0;
 }
-function le(t) {
+function oe(t) {
   for (const e of V)
     if (!b(t[e], e))
       return !1;
@@ -58,7 +58,7 @@ function I(t) {
   const e = t.length, n = t.indexOf(".");
   return e - (n + 1);
 }
-function C(t) {
+function E(t) {
   return t.replace(/^(-?)0+(?!\.)(.+)/, "$1$2");
 }
 function A(t) {
@@ -67,7 +67,7 @@ function A(t) {
 function D(t) {
   return /^-?[\d]+(\.[\d]+)$/g.test(t);
 }
-function O(t, e, n) {
+function C(t, e, n) {
   return e > t.length - 1 ? t : t.substring(0, e) + n + t.substring(e + 1);
 }
 function P(t, e) {
@@ -82,8 +82,8 @@ function P(t, e) {
       if (u !== "." && u !== "-") {
         const c = parseInt(u, 10) + 1;
         if (c < 10)
-          return O(i, s, c);
-        i = O(i, s, "0");
+          return C(i, s, c);
+        i = C(i, s, "0");
       }
     }
     return `1${i}`;
@@ -126,7 +126,7 @@ class p {
     let e = this.number.toString();
     if (this.decimal) {
       let n = !1;
-      return e.charAt(0) === "-" && (e = e.substring(1), n = !0), e = e.padStart(e.length + this.decimal, "0"), e = `${e.slice(0, -this.decimal)}.${e.slice(-this.decimal)}`, e = C(e), (n ? "-" : "") + e;
+      return e.charAt(0) === "-" && (e = e.substring(1), n = !0), e = e.padStart(e.length + this.decimal, "0"), e = `${e.slice(0, -this.decimal)}.${e.slice(-this.decimal)}`, e = E(e), (n ? "-" : "") + e;
     }
     return e;
   }
@@ -143,7 +143,7 @@ class p {
     return n === i;
   }
   setupString(e) {
-    if (e = C(e), A(e))
+    if (e = E(e), A(e))
       this.number = BigInt(e);
     else if (D(e))
       this.decimal = I(e), this.number = BigInt(e.replace(".", ""));
@@ -179,9 +179,9 @@ function k(t, e = l, n = "") {
   if (r(e, "utils format() - bigNumber2", u.toFixed(f(e.precision))), /^0(\.0+)?$/g.test(c) && e.allowBlank)
     return "";
   let [g, m] = c.split(".");
-  const v = m !== void 0 ? m.length : 0;
-  g = g.padStart(e.minimumNumberOfCharacters - v, "0"), g = se(g, e.thousands);
-  const y = e.prefix + ue(g, m, e.decimal) + e.suffix;
+  const h = m !== void 0 ? m.length : 0;
+  g = g.padStart(e.minimumNumberOfCharacters - h, "0"), g = ue(g, e.thousands);
+  const y = e.prefix + le(g, m, e.decimal) + e.suffix;
   return r(e, "utils format() - output", y), y;
 }
 function S(t, e = l, n = "") {
@@ -197,23 +197,23 @@ function S(t, e = l, n = "") {
   return e.modelModifiers && e.modelModifiers.number && (c = parseFloat(c)), r(e, "utils unformat() - output", c), c;
 }
 const R = (t, e, n) => {
-  if (r(e, "directive setValue() - caller", n), !le(e)) {
+  if (r(e, "directive setValue() - caller", n), !oe(e)) {
     r(e, "directive setValue() - validateRestrictedOptions() return false. Stopping here...", t.value);
     return;
   }
   let i = t.value.length - (t.selectionEnd || 0);
   t.value = k(t.value, e, n), i = Math.max(i, e.suffix.length), i = t.value.length - i, i = Math.max(i, e.prefix.length), _(t, i), t.dispatchEvent(j("change"));
-}, T = (t, e) => {
+}, O = (t, e) => {
   const n = t.currentTarget, i = t.code === "Backspace" || t.code === "Delete", a = n.value.length - (n.selectionEnd || 0) === 0;
   if (r(e, "directive onkeydown() - el.value", n.value), r(e, "directive onkeydown() - backspacePressed", i), r(e, "directive onkeydown() - isAtEndPosition", a), e.allowBlank && i && a && S(n.value, e, "directive onkeydown allowBlank") === 0 && (r(e, 'directive onkeydown() - set el.value = ""', n.value), n.value = "", n.dispatchEvent(j("change"))), r(e, "directive onkeydown() - e.key", t.key), t.key === "+") {
     r(e, "directive onkeydown() - unformat el.value", n.value);
     let s = S(n.value, e, "directive onkeydown +");
     typeof s == "string" && (s = parseFloat(s)), s < 0 && (n.value = String(s * -1));
   }
-}, $ = (t, e) => {
+}, T = (t, e) => {
   const n = t.currentTarget;
   r(e, "directive oninput()", n.value), /^[1-9]$/.test(n.value) && (n.value = N(n.value, f(e.precision)), r(e, "directive oninput() - is 1-9", n.value)), R(n, e, "directive oninput");
-}, E = (t, e) => {
+}, $ = (t, e) => {
   const n = t.currentTarget;
   r(e, "directive onFocus()", n.value), e.focusOnRight && _(n, n.value.length - e.suffix.length);
 }, q = {
@@ -226,11 +226,11 @@ const R = (t, e, n) => {
       i.length !== 1 || (t = i[0]);
     }
     t.onkeydown = (i) => {
-      T(i, n);
+      O(i, n);
     }, t.oninput = (i) => {
-      $(i, n);
+      T(i, n);
     }, t.onfocus = (i) => {
-      E(i, n);
+      $(i, n);
     }, r(n, "directive mounted() - el.value", t.value), R(t, n, "directive mounted");
   },
   updated(t, e) {
@@ -238,24 +238,29 @@ const R = (t, e, n) => {
       return;
     const n = x({ ...l, ...e.value });
     t.onkeydown = (i) => {
-      T(i, n);
+      O(i, n);
     }, t.oninput = (i) => {
-      $(i, n);
+      T(i, n);
     }, t.onfocus = (i) => {
-      E(i, n);
+      $(i, n);
     }, r(n, "directive updated() - el.value", t.value), r(n, "directive updated() - opt", n), R(t, n, "directive updated");
   },
   beforeUnmount(t) {
     t.onkeydown = null, t.oninput = null, t.onfocus = null;
   }
-}, oe = ["id", "value", "disabled"], ce = {
+}, ce = ["id", "value", "disabled"], de = {
   inheritAttrs: !1,
   name: "Money3",
   directives: {
     money3: q
+  },
+  methods: {
+    onEnter() {
+      console.log("onEnter"), this.$emit("enter");
+    }
   }
-}, de = /* @__PURE__ */ z({
-  ...ce,
+}, fe = /* @__PURE__ */ G({
+  ...de,
   props: {
     debug: {
       required: !1,
@@ -266,7 +271,7 @@ const R = (t, e, n) => {
       required: !1,
       type: [Number, String],
       default: () => {
-        const t = G();
+        const t = J();
         return t ? t.uid : null;
       }
     },
@@ -350,12 +355,12 @@ const R = (t, e, n) => {
   },
   emits: ["update:model-value"],
   setup(t, { emit: e }) {
-    const n = t, { modelValue: i, modelModifiers: a, masked: s, precision: u, shouldRound: c, focusOnRight: g } = J(n);
+    const n = t, { modelValue: i, modelModifiers: a, masked: s, precision: u, shouldRound: c, focusOnRight: g } = Q(n);
     r(n, "component setup()", n);
     let m = i.value;
     (n.disableNegative || m !== "-") && a.value && a.value.number && (c.value ? m = Number(i.value).toFixed(f(u.value)) : m = Number(i.value).toFixed(f(u.value) + 1).slice(0, -1));
-    const v = Q(k(m, n, "component setup"));
-    r(n, "component setup() - data.formattedValue", v.value), X(i, y);
+    const h = X(k(m, n, "component setup"));
+    r(n, "component setup() - data.formattedValue", h.value), Y(i, y);
     function y(d) {
       r(n, "component watch() -> value", d);
       const o = k(
@@ -363,7 +368,7 @@ const R = (t, e, n) => {
         x({ ...n }),
         "component watch"
       );
-      o !== v.value && (r(n, "component watch() changed -> formatted", o), v.value = o);
+      o !== h.value && (r(n, "component watch() changed -> formatted", o), h.value = o);
     }
     let B = null;
     function U(d) {
@@ -374,27 +379,27 @@ const R = (t, e, n) => {
         "component change"
       )), o !== B && (B = o, r(n, "component change() -> update:model-value", o), e("update:model-value", o));
     }
-    const L = Y(), H = ee(() => {
+    const L = ee(), H = te(() => {
       const d = {
         ...L
       };
       return delete d["onUpdate:modelValue"], d;
     });
     return (d, o) => {
-      const K = te("money3");
-      return ne((ie(), re("input", ae({
+      const K = ne("money3");
+      return ie((re(), ae("input", se({
         id: `${t.id}`
-      }, h(H), {
+      }, v(H), {
         ref: "input",
         type: "tel",
         class: "v-money3",
-        value: v.value,
+        value: h.value,
         disabled: n.disabled,
         onChange: U,
-        onEnter: o[0] || (o[0] = (fe) => d.$emit("enter"))
-      }), null, 16, oe)), [
+        onEnter: o[0] || (o[0] = (...W) => d.onEnter && d.onEnter(...W))
+      }), null, 16, ce)), [
         [K, {
-          precision: h(u),
+          precision: v(u),
           decimal: n.decimal,
           thousands: n.thousands,
           prefix: n.prefix,
@@ -405,27 +410,27 @@ const R = (t, e, n) => {
           allowBlank: n.allowBlank,
           minimumNumberOfCharacters: n.minimumNumberOfCharacters,
           debug: n.debug,
-          modelModifiers: h(a),
-          shouldRound: h(c),
-          focusOnRight: h(g)
+          modelModifiers: v(a),
+          shouldRound: v(c),
+          focusOnRight: v(g)
         }]
       ]);
     };
   }
-}), ve = {
+}), he = {
   install(t) {
-    t.component("money3", de), t.directive("money3", q);
+    t.component("money3", fe), t.directive("money3", q);
   }
 };
 export {
   p as BigNumber,
-  de as Money,
-  de as Money3,
-  de as Money3Component,
+  fe as Money,
+  fe as Money3,
+  fe as Money3Component,
   q as Money3Directive,
   q as VMoney,
   q as VMoney3,
-  ve as default,
+  he as default,
   k as format,
   S as unformat
 };

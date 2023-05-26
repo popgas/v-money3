@@ -24,7 +24,7 @@
     :value="formattedValue"
     :disabled="props.disabled"
     @change="change"
-    @enter="$emit('enter')"
+    @enter="onEnter"
   />
 </template>
 
@@ -221,5 +221,11 @@ export default {
   directives: {
     money3,
   },
-};
+  methods: {
+    onEnter() {
+      console.log("onEnter")
+      this.$emit('enter')
+    }
+  }
+}
 </script>
